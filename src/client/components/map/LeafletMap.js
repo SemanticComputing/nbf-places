@@ -21,15 +21,15 @@ const style = {
 };
 
 // https://github.com/pointhi/leaflet-color-markers
-// const ColorIcon = L.Icon.extend({
-//   options: {
-//     shadowUrl: 'img/markers/marker-shadow.png',
-//     iconSize: [25, 41],
-//     iconAnchor: [12, 41],
-//     popupAnchor: [1, -34],
-//     shadowSize: [41, 41]
-//   }
-// });
+const ColorIcon = L.Icon.extend({
+  options: {
+    shadowUrl: 'img/markers/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  }
+});
 
 class LeafletMap extends React.Component {
 
@@ -191,21 +191,21 @@ class LeafletMap extends React.Component {
   }
 
   createMarker(result) {
-    // const color = typeof result.markerColor === 'undefined' ? 'grey' : result.markerColor;
-    //const icon = new ColorIcon({iconUrl: 'img/markers/marker-icon-' + color + '.png'});
+    const color = typeof result.markerColor === 'undefined' ? 'grey' : result.markerColor;
+    const icon = new ColorIcon({iconUrl: 'img/markers/marker-icon-' + color + '.png'});
     const { lat, long } = result;
     if (lat === 'Undefined' || long === 'Undefined') {
       return null;
     } else {
       const latLng = [+lat, +long];
 
-      const icon = L.ExtraMarkers.icon({
-        icon: 'fa-number',
-        number: result.manuscriptCount,
-        markerColor: 'red',
-        shape: 'circle',
-        prefix: 'fa'
-      });
+      // const icon = L.ExtraMarkers.icon({
+      //   icon: 'fa-number',
+      //   number: result.manuscriptCount,
+      //   markerColor: 'red',
+      //   shape: 'circle',
+      //   prefix: 'fa'
+      // });
 
       const marker = L.marker(latLng, {
         icon: icon,
