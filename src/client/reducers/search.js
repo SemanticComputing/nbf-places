@@ -21,6 +21,12 @@ export const INITIAL_STATE = {
       'title': 'MMM',
       'shortTitle': 'MMM',
       'timePeriod': '',
+      'selected': false
+    },
+    'nbf': {
+      'title': 'nbf',
+      'shortTitle': 'nbf',
+      'timePeriod': '',
       'selected': true
     },
     'tgn': {

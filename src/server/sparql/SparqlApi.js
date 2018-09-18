@@ -3,7 +3,8 @@ import fetch from 'node-fetch';
 
 const defaultSelectHeaders = {
   'Content-Type': 'application/x-www-form-urlencoded',
-  'Accept': 'application/sparql-results+json; charset=utf-8'
+  'Accept': 'application/sparql-results+json; charset=utf-8',
+  'Authorization': 'Basic c2Vjbzpsb2dvczAz'
 };
 const defaultConstructHeaders = {
   'Content-Type': 'application/x-www-form-urlencoded',

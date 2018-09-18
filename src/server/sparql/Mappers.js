@@ -46,7 +46,6 @@ export const groupBy = (sparqlBindings, group) => Object.values(_.reduce(sparqlB
 // };
 
 export const mapPlaces = (sparqlBindings) => {
-  //console.log(sparqlBindings);
   const places = sparqlBindings.map(b => {
     return {
       id: b.id.value,

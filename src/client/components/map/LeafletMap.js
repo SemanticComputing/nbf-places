@@ -165,11 +165,11 @@ class LeafletMap extends React.Component {
     this.markers = {};
     const clusterer = new L.MarkerClusterGroup({
       iconCreateFunction: (cluster) => {
-        //const childCount = cluster.getChildCount();
-        let childCount = 0;
-        cluster.getAllChildMarkers().forEach(marker => {
-          childCount += parseInt(marker.options.manuscriptCount);
-        });
+        const childCount = cluster.getChildCount();
+        // let childCount = 0;
+        // cluster.getAllChildMarkers().forEach(marker => {
+        //   childCount += parseInt(marker.options.manuscriptCount);
+        // });
         let c = ' marker-cluster-';
         if (childCount < 10) {
           c += 'small';
@@ -224,7 +224,7 @@ class LeafletMap extends React.Component {
     if (result.source) {
       popUpTemplate += '<p>Place authority: <a target="_blank" rel="noopener noreferrer" href={source}>{source}</a></p>';
     }
-    popUpTemplate += this.createManscriptListing(result.manuscript);
+    //popUpTemplate += this.createManscriptListing(result.manuscript);
     return L.Util.template(popUpTemplate, result);
   }
 

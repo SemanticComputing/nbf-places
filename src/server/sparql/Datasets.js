@@ -1,5 +1,4 @@
 module.exports = {
-
   'mmm': {
     'title': 'MMM',
     'shortTitle': 'MMM',
@@ -68,42 +67,65 @@ module.exports = {
       }
       GROUP BY ?id ?label ?lat ?long ?source
         `,
-    'tgn': {
-      // Getty LOD documentation:
-      // http://vocab.getty.edu/queries#Places_by_Type
-      // https://groups.google.com/forum/#!topic/gettyvocablod/r4wsSJyne84
-      // https://confluence.ontotext.com/display/OWLIMv54/OWLIM-SE+Full-text+Search
-      // http://vocab.getty.edu/queries#Combination_Full-Text_and_Exact_String_Match
-      // http://vocab.getty.edu/doc/#TGN_Place_Types
-      'title': 'The Getty Thesaurus of Geographic Names',
-      'shortTitle': 'TGN',
-      'timePeriod': '',
-      'endpoint': 'http://vocab.getty.edu/sparql.json',
-      'simpleSuggestionQuery':
-        'SELECT+DISTINCT+?label+' +
-        'WHERE+{' +
-        '?s+a+skos:Concept;+' +
-        'luc:term+"<QUERYTERM>*";+' +
-        'skos:inScheme+tgn:;' +
-        'gvp:prefLabelGVP/xl:literalForm+?lbl+.' +
-        '+BIND(STR(?lbl)+AS+?label)' +
-        'FILTER+(STRSTARTS(LCASE(?lbl),+"<QUERYTERM>"))' +
-        '}' +
-        'LIMIT+20',
-      'resultQuery':
-        'SELECT+?s+(COALESCE(?labelEn,?labelGVP)+AS+?label)+?typeLabel+?broaderAreaLabel+?source+?lat+?long+?markerColor' +
-        'WHERE+{' +
-        '?s+luc:term+"<QUERYTERM>";+' +
-        'skos:inScheme+tgn:;+' +
-        'gvp:placeTypePreferred+[gvp:prefLabelGVP+[xl:literalForm+?typeLabel;dct:language+gvp_lang:en]];+' +
-        'gvp:parentStringAbbrev+?broaderAreaLabel+.+' +
-        'OPTIONAL+{?s+xl:prefLabel+[xl:literalForm+?labelEn;+dct:language+gvp_lang:en]}+' +
-        'OPTIONAL{?s+gvp:prefLabelGVP+[xl:literalForm?labelGVP]}+' +
-        'OPTIONAL{?s+foaf:focus+?place+.+?place+wgs:lat+?lat;+wgs:long+?long}+' +
-        'FILTER+EXISTS+{?s+xl:prefLabel/gvp:term+?term+.+FILTER+(LCASE(STR(?term))="<QUERYTERM>")}' +
-        'BIND("TGN"+AS+?source)+' +
-        'BIND("orange"+AS+?markerColor)+' +
-        '}',
-    },
+  },
+  'nbf': {
+    'title': 'nbf',
+    'shortTitle': 'nbf',
+    'timePeriod': '',
+    'endpoint': 'http://ldf.fi/nbf/sparql',
+    'placeQuery': `
+        PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+        PREFIX nbf:	<http://ldf.fi/nbf/>
+        SELECT ?id ?label ?lat ?long ?source
+        WHERE {
+          ?id a nbf:Place ;
+              skos:prefLabel ?label .
+          FILTER (lang(?label)="fi")
+          FILTER EXISTS { [] nbf:place ?id }
+          OPTIONAL {
+            ?id wgs84:lat ?lat ;
+                wgs84:long ?long .
+          }
+          OPTIONAL { ?id nbf:yso ?source }
+        }
+        `,
+  },
+  'tgn': {
+    // Getty LOD documentation:
+    // http://vocab.getty.edu/queries#Places_by_Type
+    // https://groups.google.com/forum/#!topic/gettyvocablod/r4wsSJyne84
+    // https://confluence.ontotext.com/display/OWLIMv54/OWLIM-SE+Full-text+Search
+    // http://vocab.getty.edu/queries#Combination_Full-Text_and_Exact_String_Match
+    // http://vocab.getty.edu/doc/#TGN_Place_Types
+    'title': 'The Getty Thesaurus of Geographic Names',
+    'shortTitle': 'TGN',
+    'timePeriod': '',
+    'endpoint': 'http://vocab.getty.edu/sparql.json',
+    'simpleSuggestionQuery':
+      'SELECT+DISTINCT+?label+' +
+      'WHERE+{' +
+      '?s+a+skos:Concept;+' +
+      'luc:term+"<QUERYTERM>*";+' +
+      'skos:inScheme+tgn:;' +
+      'gvp:prefLabelGVP/xl:literalForm+?lbl+.' +
+      '+BIND(STR(?lbl)+AS+?label)' +
+      'FILTER+(STRSTARTS(LCASE(?lbl),+"<QUERYTERM>"))' +
+      '}' +
+      'LIMIT+20',
+    'resultQuery':
+      'SELECT+?s+(COALESCE(?labelEn,?labelGVP)+AS+?label)+?typeLabel+?broaderAreaLabel+?source+?lat+?long+?markerColor' +
+      'WHERE+{' +
+      '?s+luc:term+"<QUERYTERM>";+' +
+      'skos:inScheme+tgn:;+' +
+      'gvp:placeTypePreferred+[gvp:prefLabelGVP+[xl:literalForm+?typeLabel;dct:language+gvp_lang:en]];+' +
+      'gvp:parentStringAbbrev+?broaderAreaLabel+.+' +
+      'OPTIONAL+{?s+xl:prefLabel+[xl:literalForm+?labelEn;+dct:language+gvp_lang:en]}+' +
+      'OPTIONAL{?s+gvp:prefLabelGVP+[xl:literalForm?labelGVP]}+' +
+      'OPTIONAL{?s+foaf:focus+?place+.+?place+wgs:lat+?lat;+wgs:long+?long}+' +
+      'FILTER+EXISTS+{?s+xl:prefLabel/gvp:term+?term+.+FILTER+(LCASE(STR(?term))="<QUERYTERM>")}' +
+      'BIND("TGN"+AS+?source)+' +
+      'BIND("orange"+AS+?markerColor)+' +
+      '}',
   },
 };
