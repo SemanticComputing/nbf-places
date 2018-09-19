@@ -66,8 +66,8 @@ class LeafletMap extends React.Component {
 
     // create map
     this.leafletMap = L.map('map', {
-      center: [42.94, 20.57],
-      zoom: 2,
+      center: [22.11, 4.04],
+      zoom: 3,
       layers: [
         OSMBaseLayer,
         this.resultMarkerLayer,
@@ -98,7 +98,7 @@ class LeafletMap extends React.Component {
       }).addTo(this.leafletMap);
 
     L.Marker.setBouncingOptions({ exclusive: true });
-
+    this.props.fetchPlaces();
   }
 
   componentDidUpdate({ results, mapMode, geoJSONKey, bouncingMarkerKey, openPopupMarkerKey }) {
@@ -265,6 +265,7 @@ LeafletMap.propTypes = {
   mapMode: PropTypes.string.isRequired,
   geoJSON: PropTypes.array,
   geoJSONKey: PropTypes.number.isRequired,
+  fetchPlaces: PropTypes.func.isRequired,
   getGeoJSON: PropTypes.func.isRequired,
   bouncingMarker: PropTypes.string.isRequired,
   popupMarker: PropTypes.string.isRequired,

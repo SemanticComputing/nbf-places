@@ -128,105 +128,23 @@ const styles = theme => ({
 });
 
 let MapApp = (props) => {
-  const { classes, options, browser, search, map, manuscripts, creationPlaces, resultValues } = props;
+  const { classes, options, browser, search, map, nbfPlaces, resultValues } = props;
   //error,
 
-  let oneColumnView = browser.lessThan.extraLarge;
-
-  // console.log('oneColumnView', oneColumnView)
-  // console.log('resultFormat', resultFormat)
-  // console.log('mapMode', mapMode)
-  //console.log(props.results)
-  console.log(manuscripts)
-
-  let table = '';
-  if ((oneColumnView && options.resultFormat === 'table') || (!oneColumnView)) {
-    table = (
-      <div className={oneColumnView ? classes.resultTableOneColumn : classes.resultTable}>
-        <VirtualizedTable
-          list={Immutable.List(manuscripts)}
-          resultValues={resultValues}
-          search={search}
-          sortResults={props.sortResults}
-          updateResultsFilter={props.updateResultsFilter}
-          updateQuery={props.updateQuery}
-          fetchManuscripts={props.fetchManuscripts}
-          clearManuscripts={props.clearManuscripts}
-          fetchPlaces={props.fetchPlaces}
-          clearPlaces={props.clearPlaces}
-          fetchSuggestions={props.fetchSuggestions}
-          clearSuggestions={props.clearSuggestions}
-          bounceMarker={props.bounceMarker}
-          openMarkerPopup={props.openMarkerPopup}
-          removeTempMarker={props.removeTempMarker}
-        />
-      </div>
-    );
-  }
-
-  let mapElement = '';
-  if ((oneColumnView && options.resultFormat === 'map') || (!oneColumnView)) {
-    if (options.mapMode === 'heatmap') {
-      mapElement = (
-        <GMap
-          results={props.creationPlaces}
-          googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKWw5FjhwLsfp_l2gjVAifPkT3cxGXhA4&v=3.exp&libraries=geometry,drawing,places,visualization"
-          loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div style={{ height: `100%` }} />}
-          mapElement={<div style={{ height: `100%` }} />}
-        />
-      );
-    } else {
-      mapElement = (
-        <LeafletMap
-          results={creationPlaces}
-          mapMode={options.mapMode}
-          geoJSON={map.geoJSON}
-          geoJSONKey={map.geoJSONKey}
-          getGeoJSON={props.getGeoJSON}
-          bouncingMarker={map.bouncingMarker}
-          popupMarker={map.popupMarker}
-          bouncingMarkerKey={map.bouncingMarkerKey}
-          openPopupMarkerKey={map.openPopupMarkerKey}
-        />
-      );
-    }
-  }
-
-  let statistics = '';
-  if ((oneColumnView && options.resultFormat === 'statistics') || (!oneColumnView)) {
-    statistics = (
-      <div className={oneColumnView ? classes.statisticsOneColumn : classes.statistics}>
-        <Pie data={manuscripts} groupBy={props.search.groupBy} query={props.search.query} />
-      </div>
-    );
-  }
-
-  let mainResultsView = '';
-  if (oneColumnView) {
-    switch(options.resultFormat) {
-      case 'table': {
-        mainResultsView = table;
-        break;
-      }
-      case 'map': {
-        mainResultsView = (
-          <div className={classes.fullMap}>
-            {map}
-          </div>
-        );
-        break;
-      }
-      case 'statistics': {
-        mainResultsView = statistics;
-        break;
-      }
-    }
-  } else {
-    mainResultsView = table;
-  }
-
-  // map = '';
+  const mapElement = (
+    <LeafletMap
+      results={nbfPlaces}
+      fetchPlaces={props.fetchPlaces}
+      mapMode={options.mapMode}
+      geoJSON={map.geoJSON}
+      geoJSONKey={map.geoJSONKey}
+      getGeoJSON={props.getGeoJSON}
+      bouncingMarker={map.bouncingMarker}
+      popupMarker={map.popupMarker}
+      bouncingMarkerKey={map.bouncingMarkerKey}
+      openPopupMarkerKey={map.openPopupMarkerKey}
+    />
+  );
 
   return (
     <div className={classes.root}>
@@ -243,9 +161,7 @@ const mapStateToProps = (state) => {
     browser: state.browser,
     search: state.search,
     map: state.map,
-    // results: getVisibleResults(state.search),
-    manuscripts: state.search.manuscripts,
-    creationPlaces: state.search.places,
+    nbfPlaces: state.search.places,
     //resultValues: getVisibleValues(state.search),
     resultValues: {},
   };
@@ -279,8 +195,7 @@ MapApp.propTypes = {
   options: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
   map: PropTypes.object.isRequired,
-  manuscripts: PropTypes.array,
-  creationPlaces: PropTypes.array,
+  nbfPlaces: PropTypes.array,
   resultValues: PropTypes.object,
 
   updateQuery: PropTypes.func.isRequired,
