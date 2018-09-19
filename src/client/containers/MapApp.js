@@ -231,33 +231,7 @@ let MapApp = (props) => {
   return (
     <div className={classes.root}>
       <div className={classes.appFrame}>
-        <TopBar
-          results={manuscripts}
-          oneColumnView={oneColumnView}
-          mapMode={options.mapMode}
-          resultFormat={options.resultFormat}
-          updateMapMode={props.updateMapMode}
-          updateResultFormat={props.updateResultFormat}
-          datasets={search.datasets}
-          toggleDataset={props.toggleDataset}
-        />
-        <div className={classes.mainContainer}>
-          {mainResultsView}
-          {!oneColumnView &&
-            <div className={classes.rightColumn}>
-              <div className={classes.map}>
-                {mapElement}
-              </div>
-              {statistics}
-            </div>
-          }
-        </div>
-        <Paper className={classes.footer}>
-          <img className={classes.aaltoLogo} src='img/logos/aalto-logo-white-no-background-small.png' alt='Aalto University logo'/>
-          <img className={classes.uhLogo} src='img/logos/university-of-helsinki-logo-white-no-background-small.png' alt='University of Helsinki logo'/>
-          <img className={classes.secoLogo} src='img/logos/seco-logo-white-no-background-small.png' alt='SeCo logo'/>
-          <img className={classes.heldigLogo} src='img/logos/heldig-logo-small.png' alt='HELDIG logo'/>
-        </Paper>
+        {mapElement}
       </div>
     </div>
   );
