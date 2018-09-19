@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import LeafletMap from '../components/map/LeafletMap';
-// 
+import BootstrapNavbar from '../components/BootstrapNavbar';
+import { Grid } from 'react-bootstrap';
+
+//
 // import {
 //   //getVisibleResults,
 //   //getVisibleValues
@@ -32,19 +35,25 @@ import {
 let MapApp = (props) => {
   const { options, map, nbfPlaces, } = props;
   //error, resultValues
+
+  // <
+
   return (
-    <LeafletMap
-      results={nbfPlaces}
-      fetchPlaces={props.fetchPlaces}
-      mapMode={options.mapMode}
-      geoJSON={map.geoJSON}
-      geoJSONKey={map.geoJSONKey}
-      getGeoJSON={props.getGeoJSON}
-      bouncingMarker={map.bouncingMarker}
-      popupMarker={map.popupMarker}
-      bouncingMarkerKey={map.bouncingMarkerKey}
-      openPopupMarkerKey={map.openPopupMarkerKey}
-    />
+    <div id="appFrame">
+      <BootstrapNavbar />
+      <LeafletMap
+        results={nbfPlaces}
+        fetchPlaces={props.fetchPlaces}
+        mapMode={options.mapMode}
+        geoJSON={map.geoJSON}
+        geoJSONKey={map.geoJSONKey}
+        getGeoJSON={props.getGeoJSON}
+        bouncingMarker={map.bouncingMarker}
+        popupMarker={map.popupMarker}
+        bouncingMarkerKey={map.bouncingMarkerKey}
+        openPopupMarkerKey={map.openPopupMarkerKey}
+      />
+    </div>
   );
 };
 
@@ -80,8 +89,6 @@ const mapDispatchToProps = ({
 });
 
 MapApp.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
   //error: PropTypes.object.isRequired,
   browser: PropTypes.object.isRequired,
 
