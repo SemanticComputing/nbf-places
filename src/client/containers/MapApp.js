@@ -1,21 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import withWidth from '@material-ui/core/withWidth';
 import compose from 'recompose/compose';
-import Paper from '@material-ui/core/Paper';
-import Immutable from 'immutable';
-import VirtualizedTable from '../components/VirtualizedTable';
 import LeafletMap from '../components/map/LeafletMap';
-import GMap from '../components/map/GMap';
-import Pie from '../components/Pie';
-import TopBar from '../components/TopBar';
-
-import {
-  //getVisibleResults,
-  getVisibleValues
-} from '../selectors';
+// 
+// import {
+//   //getVisibleResults,
+//   //getVisibleValues
+// } from '../selectors';
 
 import {
   updateQuery,
@@ -36,102 +28,11 @@ import {
   removeTempMarker
 } from '../actions';
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    height: '100%',
-  },
-  flex: {
-    flexGrow: 1,
-  },
-  appFrame: {
-    height: '100%',
-    zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
-    display: 'flex',
-    width: '100%',
-    minWidth: 640,
-    minHeight: 700
-  },
-  mainContainer: {
-    display: 'flex',
-    width: '100%',
-    marginTop: 64,
-    height: 'calc(100% - 128px)',
-    borderRight: '4px solid' + theme.palette.primary.main,
-    borderLeft: '4px solid' + theme.palette.primary.main,
-  },
-  resultTable: {
-    width: 1024,
-    height: 'calc(100% - 5px)',
-    borderRight: '4px solid' + theme.palette.primary.main,
-
-  },
-  resultTableOneColumn: {
-    width: 1024,
-    height: 'calc(100% - 5px)',
-  },
-  rightColumn: {
-    height: '100%',
-    width: 'calc(100% - 1024px)',
-  },
-  map: {
-    width: '100%',
-    height: '50%',
-    borderBottom: '4px solid' + theme.palette.primary.main,
-  },
-  fullMap: {
-    width: '100%',
-    height: '100%',
-  },
-  statistics: {
-    width: '100%',
-    height: '50%',
-  },
-  statisticsOneColumn: {
-    width: '100%',
-    height: '100%',
-  },
-  footer: {
-    position: 'absolute',
-    borderTop: '4px solid' + theme.palette.primary.main,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    bottom: 0,
-    width: '100%',
-    height: 64,
-    background: theme.palette.primary.main,
-    borderRadius: 0,
-  },
-  aaltoLogo: {
-    //paddingLeft: 24,
-    height: 37
-  },
-  uhLogo: {
-    paddingLeft: 44,
-    height: 52
-  },
-  secoLogo: {
-    paddingLeft: 44,
-    height: 52
-  },
-  heldigLogo: {
-    paddingLeft: 44,
-    height: 37
-  },
-  kotusLogo: {
-    paddingLeft: 44,
-    height: 50
-  },
-});
 
 let MapApp = (props) => {
-  const { classes, options, browser, search, map, nbfPlaces, resultValues } = props;
-  //error,
-
-  const mapElement = (
+  const { options, map, nbfPlaces, } = props;
+  //error, resultValues
+  return (
     <LeafletMap
       results={nbfPlaces}
       fetchPlaces={props.fetchPlaces}
@@ -144,14 +45,6 @@ let MapApp = (props) => {
       bouncingMarkerKey={map.bouncingMarkerKey}
       openPopupMarkerKey={map.openPopupMarkerKey}
     />
-  );
-
-  return (
-    <div className={classes.root}>
-      <div className={classes.appFrame}>
-        {mapElement}
-      </div>
-    </div>
   );
 };
 
@@ -221,6 +114,4 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  withWidth(),
-  withStyles(styles, {withTheme: true}),
 )(MapApp);

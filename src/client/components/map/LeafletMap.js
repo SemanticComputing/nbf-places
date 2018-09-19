@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
+import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+import 'leaflet-geosearch/assets/css/leaflet.css';
 import 'leaflet-fullscreen/dist/fullscreen.png';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.min.js';
@@ -96,6 +98,21 @@ class LeafletMap extends React.Component {
         collapsed: true,
         position: 'bottomleft'
       }).addTo(this.leafletMap);
+
+    const provider = new OpenStreetMapProvider({
+      params: {
+        'accept-language': 'fi',
+      }
+    });
+
+    const searchControl = new GeoSearchControl({
+      provider: provider,
+      style: 'bar',
+      showMarker: false,
+      searchLabel: 'Hae paikkaa',
+    });
+
+    this.leafletMap.addControl(searchControl);
 
     L.Marker.setBouncingOptions({ exclusive: true });
     this.props.fetchPlaces();
