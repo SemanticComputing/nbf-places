@@ -46,7 +46,6 @@
     "jest-enzyme": "^6.0.4",
     "react-test-renderer": "^16.5.1",
     "style-loader": "^0.20.3",
-    "url-loader": "^1.1.1",
     "webpack": "^4.19.0",
     "webpack-cli": "^2.1.5",
     "webpack-dev-server": "^3.1.8",
