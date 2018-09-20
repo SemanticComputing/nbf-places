@@ -208,7 +208,7 @@ class LeafletMap extends React.Component {
   }
 
   createMarker(result) {
-    const color = typeof result.markerColor === 'undefined' ? 'grey' : result.markerColor;
+    const color = typeof result.markerColor === 'undefined' ? 'blue' : result.markerColor;
     const icon = new ColorIcon({iconUrl: 'img/markers/marker-icon-' + color + '.png'});
     const { lat, long } = result;
     if (lat === 'Undefined' || long === 'Undefined') {
@@ -229,7 +229,12 @@ class LeafletMap extends React.Component {
         manuscriptCount: result.manuscriptCount ? result.manuscriptCount : null,
         manuscript: result.manuscript ? result.manuscript : null
       })
-        .bindPopup(this.createPopUpContent(result), { maxHeight: 300, maxWidth: 350, minWidth: 300 });
+        .bindPopup(this.createPopUpContent(result), {
+          //maxHeight: 300,
+          //maxWidth: 350,
+          //minWidth: 300,
+          closeButton: false,
+        });
       return marker;
     }
   }
@@ -238,9 +243,9 @@ class LeafletMap extends React.Component {
     let popUpTemplate = `
       <h3><a target="_blank" rel="noopener noreferrer" href={id}>{label}</a></p></h3>
       `;
-    if (result.source) {
-      popUpTemplate += '<p>Place authority: <a target="_blank" rel="noopener noreferrer" href={source}>{source}</a></p>';
-    }
+    // if (result.source) {
+    //   popUpTemplate += '<p>Place authority: <a target="_blank" rel="noopener noreferrer" href={source}>{source}</a></p>';
+    // }
     //popUpTemplate += this.createManscriptListing(result.manuscript);
     return L.Util.template(popUpTemplate, result);
   }
