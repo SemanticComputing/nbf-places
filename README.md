@@ -18,8 +18,8 @@ npm run dev
 
 ### Upgrade
 ```
-docker build -t mmm-web-app-c .
-docker stop mmm-web-app
-docker rm mmm-web-app
+docker build -t nbf-places-c .
+docker stop nbf-places
+docker rm nbf-places
 docker run -d -p 3005:3001 --name nbf-places nbf-places-c
 ```
