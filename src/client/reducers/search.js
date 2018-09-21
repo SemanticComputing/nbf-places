@@ -4,11 +4,10 @@ import {
   FETCH_SUGGESTIONS,
   UPDATE_SUGGESTIONS,
   CLEAR_SUGGESTIONS,
-  FETCH_MANUSCRIPTS,
+  FETCH_PLACE,
   FETCH_PLACES,
-  UPDATE_MANUSCRIPTS,
-  CLEAR_MANUSCRIPTS,
   UPDATE_PLACES,
+  UPDATE_PLACE,
   CLEAR_PLACES,
   UPDATE_RESULTS_FILTER,
   SORT_RESULTS
@@ -39,8 +38,8 @@ export const INITIAL_STATE = {
   suggestions: [],
   suggestionsQuery: '',
   fetchingSuggestions: false,
-  manuscripts: [],
-  places: [],
+  nbfPlaces: [],
+  nbfPlace: {},
   resultsFilter: {
     'id': new Set(),
     'label': new Set(),
@@ -76,7 +75,7 @@ const search = (state = INITIAL_STATE, action) => {
       };
     case FETCH_SUGGESTIONS:
       return { ...state, fetchingSuggestions: true };
-    case FETCH_MANUSCRIPTS:
+    case FETCH_PLACE:
     case FETCH_PLACES:
       return { ...state, fetchingResults: true };
     case CLEAR_SUGGESTIONS:
@@ -93,32 +92,22 @@ const search = (state = INITIAL_STATE, action) => {
         suggestionsQuery: state.query,
         fetchingSuggestions: false
       };
-    case UPDATE_MANUSCRIPTS:
+    case UPDATE_PLACE:
       return {
         ...state,
-        manuscripts: action.manuscripts,
-        //resultsQuery: state.query,
+        nbfPlace: action.place,
         fetchingResults: false
       };
     case UPDATE_PLACES:
       return {
         ...state,
-        places: action.places,
-        //resultsQuery: state.query,
-        fetchingResults: false
-      };
-    case CLEAR_MANUSCRIPTS:
-      return {
-        ...state,
-        'manuscripts': [],
-        resultsQuery: '',
+        nbfPlaces: action.places,
         fetchingResults: false
       };
     case CLEAR_PLACES:
       return {
         ...state,
-        'places': {},
-        resultsQuery: '',
+        'places': [],
         fetchingResults: false
       };
     case UPDATE_RESULTS_FILTER:

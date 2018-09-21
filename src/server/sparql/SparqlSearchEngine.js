@@ -2,10 +2,11 @@ import _ from 'lodash';
 import SparqlApi from './SparqlApi';
 import datasetConfig from './Datasets';
 import {
-  mergeFederatedResults,
-  mapPlaces
+  //mergeFederatedResults,
+  mapPlaces,
+  mapPlace
 } from './Mappers';
-import { makeObjectList } from './SparqlObjectMapper';
+//import { makeObjectList } from './SparqlObjectMapper';
 
 class SparqlSearchEngine {
 
@@ -20,67 +21,16 @@ class SparqlSearchEngine {
       });
   }
 
-  getAllManuscripts(datasetId) {
-    const { endpoint, allQuery } = datasetConfig[datasetId];
-    // console.log(allQuery)
-    return this.doSearch(allQuery, endpoint, makeObjectList);
+  getNbfPlaces() {
+    const { endpoint, placesQuery } = datasetConfig['nbf'];
+    return this.doSearch(placesQuery, endpoint, mapPlaces);
   }
 
-  getAllPlaces(datasetId) {
-    const { endpoint, placeQuery } = datasetConfig[datasetId];
-    // console.log(allQuery)
-    return this.doSearch(placeQuery, endpoint, mapPlaces);
+  getNbfPlace(placeId) {
+    let { endpoint, placeQuery } = datasetConfig['nbf'];
+    placeQuery = placeQuery.replace('<ID>', '<http://ldf.fi/nbf/places/' + placeId + '>');
+    return this.doSearch(placeQuery, endpoint, mapPlace);
   }
-
-  getFederatedManuscripts(datasets) {
-    return Promise.all(datasets.map((datasetId) =>
-      this.getAllManuscripts(datasetId)))
-      .then(mergeFederatedResults);
-    // .then((manuscripts) => this.getPlaces(manuscripts));
-  }
-
-  getFederatedPlaces(datasets) {
-    return Promise.all(datasets.map((datasetId) =>
-      this.getAllPlaces(datasetId)))
-      .then(mergeFederatedResults);
-    // .then((manuscripts) => this.getPlaces(manuscripts));
-  }
-
-
-  //
-  // getPlaces(manuscripts) {
-  //   const { endpoint, placeQuery } = datasetConfig.mmm;
-  //   let placeIds = manuscripts.reduce((places, manuscript) => {
-  //     if (manuscript.creationPlace !== undefined) {
-  //       const creationPlaceArr = manuscript.creationPlace.split(',');
-  //       places = places.concat(creationPlaceArr);
-  //     }
-  //     return places;
-  //   }, []);
-  //   placeIds = Array.from(new Set(placeIds)); //remove duplicates
-  //   return this.doSearch(placeQuery.replace('<ID>', this.uriFy(placeIds)), endpoint, makeDict)
-  //     .then((placeDict) => {
-  //       manuscripts.map((manuscript) => {
-  //         if (manuscript.creationPlace !== undefined) {
-  //           let creationPlaceObjs;
-  //           const creationPlaceArr = manuscript.creationPlace.split(',');
-  //           if (creationPlaceArr.length > 1) {
-  //             creationPlaceObjs = creationPlaceArr.map((place) => {
-  //               return placeDict[place];
-  //             });
-  //           } else {
-  //             creationPlaceObjs = placeDict[creationPlaceArr[0]];
-  //           }
-  //           manuscript.creationPlace = creationPlaceObjs;
-  //           return manuscript;
-  //         }
-  //       });
-  //       return {
-  //         'manuscripts': manuscripts,
-  //         'creationPlaces': placeDict
-  //       };
-  //     });
-  // }
 
   uriFy(id) {
     if (_.isArray(id)) {

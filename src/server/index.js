@@ -53,30 +53,27 @@ app.get('/search', (req, res) => {
     });
 });
 
-app.get('/manuscripts', (req, res) => {
-  const queryDatasets = _.castArray(req.query.dataset);
-
-  return sparqlSearchEngine.getFederatedManuscripts(queryDatasets).then((data) => {
-    // console.log(data);
-    res.json(data);
-  })
-    .catch((err) => {
-      console.log(err);
-      return res.sendStatus(500);
-    });
-});
-
-app.get('/places', (req, res) => {
-  const queryDatasets = _.castArray(req.query.dataset);
-
-  return sparqlSearchEngine.getFederatedPlaces(queryDatasets).then((data) => {
-    // console.log(data);
-    res.json(data);
-  })
-    .catch((err) => {
-      console.log(err);
-      return res.sendStatus(500);
-    });
+app.get('/nbf-places/:placeId?', (req, res) => {
+  if (req.params.placeId) {
+    let placeId = encodeURIComponent(req.params.placeId);
+    return sparqlSearchEngine.getNbfPlace(placeId).then((data) => {
+      data.id = placeId;
+      res.json(data);
+    })
+      .catch((err) => {
+        console.log(err);
+        return res.sendStatus(500);
+      });
+  } else {
+    return sparqlSearchEngine.getNbfPlaces().then((data) => {
+      // console.log(data);
+      res.json(data);
+    })
+      .catch((err) => {
+        console.log(err);
+        return res.sendStatus(500);
+      });
+  }
 });
 
 app.get('/wfs', (req, res) => {

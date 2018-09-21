@@ -52,19 +52,23 @@ export const mapPlaces = (sparqlBindings) => {
       label: b.label.value,
       lat: _.has(b, 'lat',) ? b.lat.value : 'Undefined',
       long: _.has(b, 'long',) ? b.long.value : 'Undefined',
-      source: _.has(b, 'source',) ? b.source.value : 'Undefined',
-      manuscript: _.has(b, 'manuscript',) ? b.manuscript.value.split(',') : 'Undefined',
-      manuscriptCount: _.has(b, 'manuscriptCount',) ? b.manuscriptCount.value : 'Undefined',
     };
   });
   return places;
 };
 
-export const mapAllResults = (results) => groupBy(results, 'id');
-
-export const mergeFederatedResults = (results) => {
-  // SPARQL query defines the ordering of results of one dataset.
-  // Return all merged results subsequentially.
-  //console.log(_.flatten(results))
-  return _.flatten(results);
+export const mapPlace = (sparqlBindings) => {
+  return arrayToObject(sparqlBindings, 'class');
 };
+
+const arrayToObject = (array, keyField) =>
+  array.reduce((obj, item) => {
+    let newItem = {};
+    Object.entries(item).forEach(([key, value]) => {
+      if (key !== keyField) {
+        newItem[key] = value.value;
+      }
+    });
+    obj[item[keyField].value] = newItem;
+    return obj;
+  }, {});

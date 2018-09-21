@@ -4,23 +4,14 @@ import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import LeafletMap from '../components/map/LeafletMap';
 import BootstrapNavbar from '../components/BootstrapNavbar';
-import { Grid } from 'react-bootstrap';
-
-//
-// import {
-//   //getVisibleResults,
-//   //getVisibleValues
-// } from '../selectors';
 
 import {
   updateQuery,
   toggleDataset,
   fetchSuggestions,
   clearSuggestions,
-  fetchManuscripts,
-  fetchPlaces,
-  clearManuscripts,
-  clearPlaces,
+  fetchNbfPlaces,
+  fetchNbfPlace,
   getGeoJSON,
   updateResultFormat,
   updateMapMode,
@@ -33,17 +24,19 @@ import {
 
 
 let MapApp = (props) => {
-  const { options, map, nbfPlaces, } = props;
+  const { options, map } = props;
   //error, resultValues
 
-  // <
+  //console.log(nbfPlaces);
 
   return (
     <div id="appFrame">
       <BootstrapNavbar />
       <LeafletMap
-        results={nbfPlaces}
-        fetchPlaces={props.fetchPlaces}
+        nbfPlaces={props.nbfPlaces}
+        nbfPlace={props.nbfPlace}
+        fetchNbfPlaces={props.fetchNbfPlaces}
+        fetchNbfPlace={props.fetchNbfPlace}
         mapMode={options.mapMode}
         geoJSON={map.geoJSON}
         geoJSONKey={map.geoJSONKey}
@@ -63,7 +56,8 @@ const mapStateToProps = (state) => {
     browser: state.browser,
     search: state.search,
     map: state.map,
-    nbfPlaces: state.search.places,
+    nbfPlaces: state.search.nbfPlaces,
+    nbfPlace: state.search.nbfPlace,
     //resultValues: getVisibleValues(state.search),
     resultValues: {},
   };
@@ -74,10 +68,8 @@ const mapDispatchToProps = ({
   toggleDataset,
   fetchSuggestions,
   clearSuggestions,
-  fetchManuscripts,
-  fetchPlaces,
-  clearManuscripts,
-  clearPlaces,
+  fetchNbfPlaces,
+  fetchNbfPlace,
   sortResults,
   getGeoJSON,
   updateResultFormat,
@@ -95,17 +87,16 @@ MapApp.propTypes = {
   options: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
   map: PropTypes.object.isRequired,
-  nbfPlaces: PropTypes.array,
+  nbfPlaces: PropTypes.array.isRequired,
+  nbfPlace: PropTypes.object.isRequired,
   resultValues: PropTypes.object,
 
   updateQuery: PropTypes.func.isRequired,
   toggleDataset: PropTypes.func.isRequired,
-  fetchSuggestions: PropTypes.func.isRequired,
-  clearSuggestions: PropTypes.func.isRequired,
-  fetchManuscripts: PropTypes.func.isRequired,
-  fetchPlaces: PropTypes.func.isRequired,
-  clearManuscripts: PropTypes.func.isRequired,
-  clearPlaces: PropTypes.func.isRequired,
+
+  fetchNbfPlaces: PropTypes.func.isRequired,
+  fetchNbfPlace:  PropTypes.func.isRequired,
+
   sortResults: PropTypes.func.isRequired,
   getGeoJSON: PropTypes.func.isRequired,
   bounceMarker: PropTypes.func.isRequired,

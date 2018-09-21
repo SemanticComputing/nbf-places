@@ -9,20 +9,15 @@ export const FETCH_SUGGESTIONS_FAILED = 'FETCH_SUGGESTIONS_FAILED';
 export const UPDATE_SUGGESTIONS = 'UPDATE_SUGGESTIONS';
 export const CLEAR_SUGGESTIONS = 'CLEAR_SUGGESTIONS';
 
-export const FETCH_RESULTS = 'FETCH_RESULTS';
-export const UPDATE_RESULTS = 'UPDATE_RESULTS';
-export const CLEAR_RESULTS = 'CLEAR_RESULTS';
-export const FETCH_RESULTS_FAILED = 'FETCH_RESULTS_FAILED';
-
-export const FETCH_MANUSCRIPTS = 'FETCH_MANUSCRIPTS';
-export const UPDATE_MANUSCRIPTS = 'UPDATE_MANUSCRIPTS';
-export const CLEAR_MANUSCRIPTS = 'CLEAR_MANUSCRIPTS';
-export const FETCH_MANUSCRIPTS_FAILED = 'FETCH_MANUSCRIPTS_FAILED';
-
 export const FETCH_PLACES = 'FETCH_PLACES';
 export const UPDATE_PLACES = 'UPDATE_PLACES';
 export const CLEAR_PLACES = 'CLEAR_PLACES';
 export const FETCH_PLACES_FAILED = 'FETCH_PLACES_FAILED';
+
+export const FETCH_PLACE = 'FETCH_PLACE';
+export const UPDATE_PLACE = 'UPDATE_PLACE';
+export const CLEAR_PLACE = 'CLEAR_PLACE';
+export const FETCH_PLACE_FAILED = 'FETCH_PLACE_FAILED';
 
 export const UPDATE_RESULTS_FILTER = 'UPDATE_RESULTS_FILTER';
 export const SORT_RESULTS = 'SORT_RESULTS';
@@ -82,64 +77,43 @@ export const clearSuggestions = () => ({
   type: CLEAR_SUGGESTIONS,
 });
 
-// Results
-export const fetchResults = () => ({
-  type: FETCH_RESULTS,
-});
-
-export const updateResults = ({ results }) => ({
-  type: UPDATE_RESULTS,
-  results
-});
-
-export const clearResults = () => ({
-  type: CLEAR_RESULTS,
-});
-
-export const fetchResultsFailed = (error) => ({
-  type: FETCH_RESULTS_FAILED,
-  error
-});
-
-// Manuscripts
-export const fetchManuscripts = () => ({
-  type: FETCH_MANUSCRIPTS,
-});
-
-export const updateManuscripts = ({ manuscripts }) => ({
-  type: UPDATE_MANUSCRIPTS,
-  manuscripts
-});
-
-export const clearManuscripts = () => ({
-  type: CLEAR_MANUSCRIPTS,
-});
-
-export const fetchManuscriptsFailed = (error) => ({
-  type: FETCH_MANUSCRIPTS_FAILED,
-  error
-});
-
-// Places
-export const fetchPlaces = () => ({
+// Nbf places
+export const fetchNbfPlaces = () => ({
   type: FETCH_PLACES,
 });
 
-export const updatePlaces = ({ places }) => ({
+export const updateNbfPlaces = ({ places }) => ({
   type: UPDATE_PLACES,
   places
 });
 
-export const clearPlaces = () => ({
+export const clearNbfPlaces = () => ({
   type: CLEAR_PLACES,
 });
 
-export const fetchPlacesFailed = (error) => ({
+export const fetchNbfPlacesFailed = (error) => ({
   type: FETCH_PLACES_FAILED,
   error
 });
 
+export const fetchNbfPlace = (placeId) => ({
+  type: FETCH_PLACE,
+  placeId
+});
 
+export const updateNbfPlace = ({ place }) => ({
+  type: UPDATE_PLACE,
+  place
+});
+
+export const clearNbfPlace = () => ({
+  type: CLEAR_PLACE,
+});
+
+export const fetchPlaceNbfFailed = (error) => ({
+  type: FETCH_PLACE_FAILED,
+  error
+});
 
 
 

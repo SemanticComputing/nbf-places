@@ -60,12 +60,6 @@ class LeafletMap extends React.Component {
     this.bouncingMarkerObj = null;
     this.popupMarkerObj = null;
 
-    if (this.props.mapMode === 'cluster') {
-      this.updateMarkersAndCluster(this.props.results);
-    } else {
-      this.updateMarkers(this.props.results);
-    }
-
     // create map
     this.leafletMap = L.map('map', {
       center: [22.11, 4.04],
@@ -115,10 +109,10 @@ class LeafletMap extends React.Component {
     this.leafletMap.addControl(searchControl);
 
     L.Marker.setBouncingOptions({ exclusive: true });
-    this.props.fetchPlaces();
+    this.props.fetchNbfPlaces();
   }
 
-  componentDidUpdate({ results, mapMode, geoJSONKey, bouncingMarkerKey, openPopupMarkerKey }) {
+  componentDidUpdate({ nbfPlaces, nbfPlace, mapMode, geoJSONKey, bouncingMarkerKey, openPopupMarkerKey }) {
     if (this.props.bouncingMarker === '' && this.bouncingMarkerObj !== null) {
       this.leafletMap.removeLayer(this.bouncingMarkerObj);
     }
@@ -148,12 +142,16 @@ class LeafletMap extends React.Component {
     }
 
     // check if results data or mapMode have changed
-    if (this.props.results !== results || this.props.mapMode !== mapMode) {
+    if (this.props.nbfPlaces !== nbfPlaces || this.props.mapMode !== mapMode) {
       if (this.props.mapMode === 'cluster') {
-        this.updateMarkersAndCluster(this.props.results);
+        this.updateMarkersAndCluster(this.props.nbfPlaces);
       } else {
-        this.updateMarkers(this.props.results);
+        this.updateMarkers(this.props.nbfPlaces);
       }
+    }
+
+    if (this.props.nbfPlace !== nbfPlace) {
+      console.log(this.props.nbfPlace)
     }
 
     // check if geoJSON has updated
@@ -199,7 +197,7 @@ class LeafletMap extends React.Component {
       }
     });
     // const clusterer = L.markerClusterGroup();
-    Object.values(results).forEach(value => {
+    results.forEach(value => {
       const marker = this.createMarker(value);
       this.markers[value.id] = marker;
       marker == null ? null : clusterer.addLayer(marker);
@@ -226,22 +224,49 @@ class LeafletMap extends React.Component {
 
       const marker = L.marker(latLng, {
         icon: icon,
-        manuscriptCount: result.manuscriptCount ? result.manuscriptCount : null,
-        manuscript: result.manuscript ? result.manuscript : null
+        result: result
       })
-        .bindPopup(this.createPopUpContent(result), {
-          //maxHeight: 300,
-          //maxWidth: 350,
-          //minWidth: 300,
-          closeButton: false,
-        });
+        .on('click', this.markerOnClick);
+        // .bindPopup(this.createPopUpContent(result), {
+        //   //maxHeight: 300,
+        //   //maxWidth: 350,
+        //   //minWidth: 300,
+        //   closeButton: false,
+        // });
       return marker;
     }
   }
 
+  markerOnClick = (event) => {
+    //console.log(event.target.options.result.id);
+    const nbfPlaceId = (event.target.options.result.id.replace('http://ldf.fi/nbf/places/', ''));
+    //console.log(nbfPlaceId);
+    this.props.fetchNbfPlace(nbfPlaceId);
+  };
+
   createPopUpContent(result) {
+    // https://github.com/ui-router/core/blob/8ed691b/src/params/paramTypes.ts#L56
+
+    //let nbfLink = encodeURIComponent(result.id);
+
+
+    let encoded = encodeURIComponent('http://ldf.fi/nbf/p6428');
+    encoded = encoded.replace(/%/g, '~');
+    encoded = 'https://semanticcomputing.github.io/nbf/#!/' + encoded;
+
+
+    let nbfURI = 'http://ldf.fi/nbf/p6428'.replace(/\//g, '~2F');
+    result.nbfLink = 'https://semanticcomputing.github.io/nbf/#!/' + nbfURI;
+
+
+    if (result.id == 'http://ldf.fi/nbf/places/Marburg') {
+      console.log(encoded)
+      console.log(result.nbfLink)
+    }
+
+
     let popUpTemplate = `
-      <h3><a target="_blank" rel="noopener noreferrer" href={id}>{label}</a></p></h3>
+      <h3><a target="_blank" rel="noopener noreferrer" href={nbfLink}>{label}</a></p></h3>
       `;
     // if (result.source) {
     //   popUpTemplate += '<p>Place authority: <a target="_blank" rel="noopener noreferrer" href={source}>{source}</a></p>';
@@ -283,11 +308,13 @@ class LeafletMap extends React.Component {
 }
 
 LeafletMap.propTypes = {
-  results: PropTypes.array,
+  nbfPlaces: PropTypes.array.isRequired,
+  nbfPlace: PropTypes.object.isRequired,
   mapMode: PropTypes.string.isRequired,
   geoJSON: PropTypes.array,
   geoJSONKey: PropTypes.number.isRequired,
-  fetchPlaces: PropTypes.func.isRequired,
+  fetchNbfPlaces: PropTypes.func.isRequired,
+  fetchNbfPlace: PropTypes.func.isRequired,
   getGeoJSON: PropTypes.func.isRequired,
   bouncingMarker: PropTypes.string.isRequired,
   popupMarker: PropTypes.string.isRequired,
