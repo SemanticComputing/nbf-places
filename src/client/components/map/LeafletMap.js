@@ -16,6 +16,7 @@ import 'Leaflet.extra-markers/dist/js/leaflet.extra-markers.min.js';
 import 'Leaflet.extra-markers/dist/css/leaflet.extra-markers.min.css';
 import 'Leaflet.extra-markers/dist/img/markers_default.png';
 import 'Leaflet.extra-markers/dist/img/markers_shadow.png';
+import 'leaflet.gridlayer.googlemutant/Leaflet.GoogleMutant.js';
 
 const style = {
   width: '100%',
@@ -40,6 +41,10 @@ class LeafletMap extends React.Component {
     // Base layers
     const OSMBaseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    });
+
+    const googleBaseLayer = L.gridLayer.googleMutant({
+      type: 'roadmap',
     });
 
     const karelianMaps = L.tileLayer('http:///mapwarper.onki.fi/mosaics/tile/4/{z}/{x}/{y}.png', {
@@ -74,12 +79,13 @@ class LeafletMap extends React.Component {
     // layer controls
     const baseMaps = {
       'OpenStreetMap': OSMBaseLayer,
+      'Google': googleBaseLayer
     };
     const overlayMaps = {
-      'Search results': this.resultMarkerLayer,
-      'Karelian maps (MapWarper)': karelianMaps,
-      'Senate atlas (MapWarper)': senateAtlas,
-      'Western Front July 1917 (MapWarper)': westernFront
+      'Kansallisbiografian paikat': this.resultMarkerLayer,
+      'Karjalan kartat (1928-1951), 47 karttalehteä': karelianMaps,
+      'Senaatin kartasto (1870 - 1907), 414 karttalehteä': senateAtlas,
+      //'Western Front July 1917 (MapWarper)': westernFront
     };
 
     this.layerControl = L.control.layers(
