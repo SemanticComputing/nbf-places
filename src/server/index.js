@@ -17,7 +17,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(express.static(__dirname + './../public/'));
+app.use('/paikat', express.static(__dirname + './../public/'));
 
 app.get('/suggest', (req, res) => {
   // https://softwareengineering.stackexchange.com/questions/233164/how-do-searches-fit-into-a-restful-interface

@@ -15,7 +15,7 @@ import {
 
 const nbfPlacesApiUrl = (process.env.NODE_ENV === 'development')
   ? 'http://localhost:3001/'
-  : 'http://193.166.25.181:3005/';
+  : 'http://biografiasampo.fi/paikat/';
 
 
 const getNbfPlacesEpic = (action$) => {
