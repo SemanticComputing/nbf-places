@@ -36,7 +36,7 @@ app.get('/suggest', (req, res) => {
     });
 });
 
-app.get('/search', (req, res) => {
+app.get('/paikat/search', (req, res) => {
   // https://softwareengineering.stackexchange.com/questions/233164/how-do-searches-fit-into-a-restful-interface
   // example request: http://localhost:3000/search?dataset=warsa_karelian_places&dataset=pnr&q=viip
   const queryDatasets = _.castArray(req.query.dataset);
@@ -53,7 +53,7 @@ app.get('/search', (req, res) => {
     });
 });
 
-app.get('/nbf-places/:placeId?', (req, res) => {
+app.get('/paikat/nbf-places/:placeId?', (req, res) => {
   if (req.params.placeId) {
     let placeId = encodeURIComponent(req.params.placeId);
     return sparqlSearchEngine.getNbfPlace(placeId).then((data) => {
@@ -76,7 +76,7 @@ app.get('/nbf-places/:placeId?', (req, res) => {
   }
 });
 
-app.get('/wfs', (req, res) => {
+app.get('/paikat/wfs', (req, res) => {
 
   return getWFSLayers(req.query.layerID).then((data) => {
     //console.log(data);
