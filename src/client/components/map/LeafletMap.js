@@ -157,7 +157,7 @@ class LeafletMap extends React.Component {
     }
 
     if (this.props.nbfPlace !== nbfPlace) {
-      console.log(this.props.nbfPlace)
+      //console.log(this.props.nbfPlace)
     }
 
     // check if geoJSON has updated
@@ -265,10 +265,10 @@ class LeafletMap extends React.Component {
     result.nbfLink = 'https://semanticcomputing.github.io/nbf/#!/' + nbfURI;
 
 
-    if (result.id == 'http://ldf.fi/nbf/places/Marburg') {
-      console.log(encoded)
-      console.log(result.nbfLink)
-    }
+    // if (result.id == 'http://ldf.fi/nbf/places/Marburg') {
+    //   console.log(encoded)
+    //   console.log(result.nbfLink)
+    // }
 
 
     let popUpTemplate = `
