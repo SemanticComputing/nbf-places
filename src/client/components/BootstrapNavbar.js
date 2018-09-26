@@ -4,8 +4,9 @@ import {
   Nav,
   NavItem,
   NavDropdown,
-  MenuItem
+  Glyphicon
 } from 'react-bootstrap';
+import HelpModal from './HelpModal';
 
 const BootstrapNavbar = () => (
   <Navbar
@@ -17,7 +18,7 @@ const BootstrapNavbar = () => (
       <Navbar.Brand>
         <a href="http://biografiasampo.fi/" style={{padding: '0px 0px 10px 0px'}}>
           <span>
-            <img width="90" height="50" src="img/logos/agricola.jpg" />
+            <img width="100" height="55.15" src="img/logos/bs-books-logo.png" />
           </span>
         </a>
       </Navbar.Brand>
@@ -25,14 +26,14 @@ const BootstrapNavbar = () => (
     </Navbar.Header>
     <Navbar.Collapse>
       <Nav pullLeft>
-        <NavItem eventKey={1} href="http://biografiasampo.fi/haku">
-          <span className="glyphicon glyphicon-search" aria-hidden="true"></span> Haku
+        <NavItem eventKey={1} href="http://biografiasampo.fi/haku/ruudukko">
+          <span className="glyphicon glyphicon-search" aria-hidden="true"></span> Henkilöt
+        </NavItem>
+        <NavItem className="active" eventKey={1} href="#">
+          <span className="glyphicon glyphicon-search" aria-hidden="true"></span> Paikat
         </NavItem>
         <NavItem eventKey={1} href="http://biografiasampo.fi/kartat/tapahtumat">
-          <span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Kartat
-        </NavItem>
-        <NavItem eventKey={1} href="#">
-          <span className="glyphicon glyphicon-globe" aria-hidden="true"></span> Paikat
+          <span className="glyphicon glyphicon-globe" aria-hidden="true"></span> Elämäkartat
         </NavItem>
         <NavItem eventKey={1} href="http://biografiasampo.fi/tilastot/palkit">
           <span className="glyphicon glyphicon-stats" aria-hidden="true"></span> Tilastot
@@ -49,21 +50,31 @@ const BootstrapNavbar = () => (
       </Nav>
 
       <Nav pullRight>
-        <NavItem eventKey={1} href="#">
-          Palaute
+        <NavItem eventKey={2} href="http://biografiasampo.fi/palaute">
+          <Glyphicon className="koli-color" glyph="pencil" /> <span className="koli-color">Palaute</span>
         </NavItem>
-        <NavDropdown eventKey={3} title="Tietoja" id="basic-nav-dropdown">
-          <MenuItem eventKey={3.1}>Action</MenuItem>
-          <MenuItem eventKey={3.2}>Another action</MenuItem>
-          <MenuItem eventKey={3.3}>Something else here</MenuItem>
-          <MenuItem eventKey={3.3}>Separated link</MenuItem>
+        <NavDropdown
+          eventKey={3}
+          title={
+            <div className="koli-color" style={{ display: 'inline-block' }}>
+              <Glyphicon glyph="info-sign" /> Tietoja{' '}
+            </div>
+          }
+          id="instuctions-nav-dropdown">
+          <NavItem href="https://seco.cs.aalto.fi/projects/biografiasampo#aineistot">Aineistot</NavItem>
+          <NavItem href="https://www.ldf.fi/">Datapalvelu LDF.fi</NavItem>
+          <NavItem href="https://seco.cs.aalto.fi/projects/biografiasampo/">Biografiasampo-projektin kotisivu</NavItem>
+          <NavItem href="https://seco.cs.aalto.fi/projects/biografiasampo#yhteystiedot">Yhteystiedot</NavItem>
+          <NavItem href="https://www.facebook.com/groups/514385075640669/"><img src="img/logos/FB-f-Logo__blue_29.png" /> Facebook-ryhmä</NavItem>
+          <NavItem href="http://biografiasampo.fi/pdf/biografiasampo-rekisteriseloste.pdf">Rekisteriseloste</NavItem>
         </NavDropdown>
-        <NavItem eventKey={2} href="#">
-        Ohje
-        </NavItem>
+        <HelpModal />
       </Nav>
     </Navbar.Collapse>
   </Navbar>
+
+
+
 );
 
 export default BootstrapNavbar;
