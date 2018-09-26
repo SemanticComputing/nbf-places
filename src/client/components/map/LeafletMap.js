@@ -88,13 +88,18 @@ class LeafletMap extends React.Component {
       //'Western Front July 1917 (MapWarper)': westernFront
     };
 
+    const opacityControlled = {
+      'Karjalan kartat (1928-1951), 47 karttalehteä': karelianMaps,
+      'Senaatin kartasto (1870 - 1907), 414 karttalehteä': senateAtlas,
+    };
+
     this.layerControl = L.control.layers(
       baseMaps,
       overlayMaps,
     ).addTo(this.leafletMap);
 
     L.control.opacity(
-      overlayMaps, {
+      opacityControlled, {
         collapsed: true,
         position: 'bottomleft'
       }).addTo(this.leafletMap);
