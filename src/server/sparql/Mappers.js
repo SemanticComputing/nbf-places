@@ -58,6 +58,7 @@ export const mapPlaces = (sparqlBindings) => {
 };
 
 export const mapPlace = (sparqlBindings) => {
+  //console.log(sparqlBindings)
   return arrayToObject(sparqlBindings, 'class');
 };
 

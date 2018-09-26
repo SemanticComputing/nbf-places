@@ -27,7 +27,7 @@ module.exports = {
         PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
         PREFIX bioc:  <http://ldf.fi/schema/bioc/>
         PREFIX nbf:	<http://ldf.fi/nbf/>
-        SELECT DISTINCT ?class
+        SELECT DISTINCT ?class ?nbfLink
         (COUNT(DISTINCT ?person) AS ?personCount)
         WHERE {
           VALUES ?id { <ID> }
@@ -35,8 +35,11 @@ module.exports = {
         	  (crm:P100_was_death_of|crm:P98_brought_into_life|bioc:inheres_in)/^foaf:focus ?person ;
         	  a/skos:prefLabel ?class .
         	FILTER (lang(?class)="en")
+          BIND(replace(str(?id), "http://ldf.fi/nbf/places/", "") AS ?localName) .
+          BIND(encode_for_uri(?localName) AS ?localNameEncoded) .
+          BIND(uri(concat("http://biografiasampo.fi/paikka/", ?localNameEncoded)) AS ?nbfLink)
         }
-        GROUP BY ?class
+        GROUP BY ?class ?nbfLink
         `,
   },
 };

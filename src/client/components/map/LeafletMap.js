@@ -70,7 +70,7 @@ class LeafletMap extends React.Component {
       center: [22.11, 4.04],
       zoom: 3,
       layers: [
-        OSMBaseLayer,
+        googleBaseLayer,
         this.resultMarkerLayer,
       ],
       fullscreenControl: true,
@@ -78,8 +78,8 @@ class LeafletMap extends React.Component {
 
     // layer controls
     const baseMaps = {
+      'Google': googleBaseLayer,
       'OpenStreetMap': OSMBaseLayer,
-      'Google': googleBaseLayer
     };
     const overlayMaps = {
       'Kansallisbiografian paikat': this.resultMarkerLayer,
@@ -109,7 +109,7 @@ class LeafletMap extends React.Component {
       provider: provider,
       style: 'bar',
       showMarker: false,
-      searchLabel: 'Hae paikkaa',
+      searchLabel: 'Siirry kartalla',
     });
 
     this.leafletMap.addControl(searchControl);
@@ -271,12 +271,68 @@ class LeafletMap extends React.Component {
     //   console.log(result.nbfLink)
     // }
 
-    result.nbfLink = 'http://biografiasampo.fi/paikka/' + result.id;
-    result.label = decodeURIComponent(result.id);
-    //console.log(result)
+    // console.log(result)
+    //const onceEncodedId =  encodeURIComponent(result.id);
+    // const twiceEncodedId = escape(encodeURIComponent(result.id));
+    // result.nbfLink = 'http://biografiasampo.fi/paikka/' + twiceEncodedId;
+
     let popUpTemplate = `
-      <h3><a target="_self" rel="noopener noreferrer" href={nbfLink}>{label}</a></p></h3>
+      <h3><a target="_self" rel="noopener noreferrer" href={nbfLink}>{label}</a></h3>
+      <p>Paikkaan liittyviä henkilöitä:</p>
+      <ul>
       `;
+
+    let births = '';
+    let deaths = '';
+    let careers = '';
+    let products = '';
+    let honours = '';
+    let nbfLink = '';
+    Object.entries(result).forEach(([key, value]) => {
+      switch(key) {
+        case 'Birth':
+          births = '<li>Syntyneet (' + value.personCount + ')</li>';
+          nbfLink = value.nbfLink;
+          break;
+        case 'Death':
+          deaths = '<li>Kuolleet (' + value.personCount + ')</li>';
+          nbfLink = value.nbfLink;
+          break;
+        case 'Career':
+          careers = '<li>Opiskelleet tai työskennelleet (' + value.personCount + ')</li>';
+          nbfLink = value.nbfLink;
+          break;
+        case 'Product':
+          products = '<li>Henkilöt, joilla on paikkaan liittyviä teoksia (' + value.personCount + ')</li>';
+          nbfLink = value.nbfLink;
+          break;
+        case 'Honour':
+          honours = '<li>Kunniamaininnan saaneet (' + value.personCount + ')</li>';
+          nbfLink = value.nbfLink;
+          break;
+      }
+    });
+    if (births != '') {
+      popUpTemplate += births;
+    }
+    if (deaths != '') {
+      popUpTemplate += deaths;
+    }
+    if (careers != '') {
+      popUpTemplate += careers;
+    }
+    if (honours != '') {
+      popUpTemplate += honours;
+    }
+    if (products != '') {
+      popUpTemplate += products;
+    }
+
+    popUpTemplate += '</ul><p>Tutki tarkemmin paikan <a target="_self" rel="noopener noreferrer" href={nbfLink}>kotisivulla.</a></p>';
+
+    result.nbfLink = nbfLink;
+    result.label = decodeURIComponent(result.id);
+
     // if (result.source) {
     //   popUpTemplate += '<p>Place authority: <a target="_blank" rel="noopener noreferrer" href={source}>{source}</a></p>';
     // }
