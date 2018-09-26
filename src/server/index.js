@@ -17,15 +17,15 @@ app.use(function(req, res, next) {
   next();
 });
 
-// Serve the React app
-let rootDir = '';
-if (isDevelopment) {
-  app.use(express.static(__dirname + './../public/'));
-  rootDir = '';
-} else {
-  rootDir = '/paikat';
-  app.use(rootDir, express.static(__dirname + './../public/'));
-}
+// // Serve the React app
+// let rootDir = '';
+// if (isDevelopment) {
+//   app.use(express.static(__dirname + './../public/'));
+//   rootDir = '';
+// } else {
+const rootDir = '/paikat';
+app.use(rootDir, express.static(__dirname + './../public/'));
+// }
 
 // Nbf API
 app.get(rootDir + '/suggest', (req, res) => {
