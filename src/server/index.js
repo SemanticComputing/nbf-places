@@ -5,7 +5,7 @@ import _ from 'lodash';
 import sparqlSearchEngine from './sparql/SparqlSearchEngine';
 const DEFAULT_PORT = 3001;
 const app = express();
-//const isDevelopment  = app.get('env') !== 'production';
+const isDevelopment  = app.get('env') !== 'production';
 
 app.set('port', process.env.PORT || DEFAULT_PORT);
 app.use(bodyParser.json());
@@ -17,9 +17,18 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/paikat', express.static(__dirname + './../public/'));
+// Serve the React app
+let rootDir = '';
+if (isDevelopment) {
+  app.use(express.static(__dirname + './../public/'));
+  rootDir = '';
+} else {
+  rootDir = '/paikat';
+  app.use(rootDir, express.static(__dirname + './../public/'));
+}
 
-app.get('/suggest', (req, res) => {
+// Nbf API
+app.get(rootDir + '/suggest', (req, res) => {
   // https://softwareengineering.stackexchange.com/questions/233164/how-do-searches-fit-into-a-restful-interface
   // example request: http://localhost:3000/search?dataset=warsa_karelian_places&dataset=pnr&q=viip
   const queryDatasets = _.castArray(req.query.dataset);
@@ -36,7 +45,7 @@ app.get('/suggest', (req, res) => {
     });
 });
 
-app.get('/paikat/search', (req, res) => {
+app.get(rootDir + '/search', (req, res) => {
   // https://softwareengineering.stackexchange.com/questions/233164/how-do-searches-fit-into-a-restful-interface
   // example request: http://localhost:3000/search?dataset=warsa_karelian_places&dataset=pnr&q=viip
   const queryDatasets = _.castArray(req.query.dataset);
@@ -53,7 +62,7 @@ app.get('/paikat/search', (req, res) => {
     });
 });
 
-app.get('/paikat/nbf-places/:placeId?', (req, res) => {
+app.get(rootDir + '/nbf-places/:placeId?', (req, res) => {
   if (req.params.placeId) {
     let placeId = encodeURIComponent(req.params.placeId);
     return sparqlSearchEngine.getNbfPlace(placeId).then((data) => {
@@ -76,7 +85,7 @@ app.get('/paikat/nbf-places/:placeId?', (req, res) => {
   }
 });
 
-app.get('/paikat/wfs', (req, res) => {
+app.get(rootDir + '/wfs', (req, res) => {
 
   return getWFSLayers(req.query.layerID).then((data) => {
     //console.log(data);
