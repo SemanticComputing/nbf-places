@@ -157,7 +157,14 @@ class LeafletMap extends React.Component {
     }
 
     if (this.props.nbfPlace !== nbfPlace) {
-      //console.log(this.props.nbfPlace)
+      this.markers[this.props.nbfPlace.id]
+        .bindPopup(this.createPopUpContent(this.props.nbfPlace), {
+        //maxHeight: 300,
+        //maxWidth: 350,
+        //minWidth: 300,
+        //closeButton: false,
+        })
+        .openPopup();
     }
 
     // check if geoJSON has updated
@@ -205,7 +212,7 @@ class LeafletMap extends React.Component {
     // const clusterer = L.markerClusterGroup();
     results.forEach(value => {
       const marker = this.createMarker(value);
-      this.markers[value.id] = marker;
+      this.markers[value.id.replace('http://ldf.fi/nbf/places/', '')] = marker;
       marker == null ? null : clusterer.addLayer(marker);
     });
     clusterer.addTo(this.resultMarkerLayer);
@@ -244,35 +251,31 @@ class LeafletMap extends React.Component {
   }
 
   markerOnClick = (event) => {
-    //console.log(event.target.options.result.id);
     const nbfPlaceId = (event.target.options.result.id.replace('http://ldf.fi/nbf/places/', ''));
-    //console.log(nbfPlaceId);
     this.props.fetchNbfPlace(nbfPlaceId);
   };
 
   createPopUpContent(result) {
     // https://github.com/ui-router/core/blob/8ed691b/src/params/paramTypes.ts#L56
-
     //let nbfLink = encodeURIComponent(result.id);
-
-
-    let encoded = encodeURIComponent('http://ldf.fi/nbf/p6428');
-    encoded = encoded.replace(/%/g, '~');
-    encoded = 'https://semanticcomputing.github.io/nbf/#!/' + encoded;
-
-
-    let nbfURI = 'http://ldf.fi/nbf/p6428'.replace(/\//g, '~2F');
-    result.nbfLink = 'https://semanticcomputing.github.io/nbf/#!/' + nbfURI;
-
-
+    //
+    // let encoded = encodeURIComponent('http://ldf.fi/nbf/p6428');
+    // encoded = encoded.replace(/%/g, '~');
+    // encoded = 'https://semanticcomputing.github.io/nbf/#!/' + encoded;
+    //
+    //
+    // let nbfURI = 'http://ldf.fi/nbf/p6428'.replace(/\//g, '~2F');
+    // result.nbfLink = 'https://semanticcomputing.github.io/nbf/#!/' + nbfURI;
     // if (result.id == 'http://ldf.fi/nbf/places/Marburg') {
     //   console.log(encoded)
     //   console.log(result.nbfLink)
     // }
 
-
+    result.nbfLink = 'http://biografiasampo.fi/paikka/' + result.id;
+    result.label = decodeURIComponent(result.id);
+    //console.log(result)
     let popUpTemplate = `
-      <h3><a target="_blank" rel="noopener noreferrer" href={nbfLink}>{label}</a></p></h3>
+      <h3><a target="_self" rel="noopener noreferrer" href={nbfLink}>{label}</a></p></h3>
       `;
     // if (result.source) {
     //   popUpTemplate += '<p>Place authority: <a target="_blank" rel="noopener noreferrer" href={source}>{source}</a></p>';
