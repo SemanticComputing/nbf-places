@@ -13,10 +13,15 @@ import {
   GET_GEOJSON_FAILED
 } from '../actions';
 
-const nbfPlacesApiUrl = (process.env.NODE_ENV === 'development')
-  ? 'http://localhost:3001/'
-  : 'http://biografiasampo.fi/paikat/';
+let nbfPlacesApiUrl = '';
 
+if (process.env.NODE_ENV === 'development') {
+  nbfPlacesApiUrl = 'http://localhost:3001/';
+} else if (location.protocol != 'https:') {
+  nbfPlacesApiUrl = 'http://biografiasampo.fi/paikat/';
+} else {
+  nbfPlacesApiUrl = 'https://biografiasampo.fi/paikat/';
+}
 
 const getNbfPlacesEpic = (action$) => {
   const searchUrl = nbfPlacesApiUrl + 'nbf-places';
