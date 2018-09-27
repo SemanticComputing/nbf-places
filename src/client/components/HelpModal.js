@@ -43,42 +43,29 @@ class HelpModal extends React.Component {
             erilaisten sovellusnäkymien kautta, joita ovat:</p>
             <ol className="instructions-modal-list">
               <li>
-                <div>
-                  <span><b>Henkilöt</b>-näkymän kautta voit hakea joustavasti elämäkertoja fasettihaun avulla.</span>
-                </div>
+                <span><b>Henkilöt</b>-näkymän kautta voit hakea joustavasti elämäkertoja fasettihaun avulla.</span>
+              </li>
+              <li className="instructions-modal-places">
+                <span><b>Paikat</b>-näkymässä voit hakea ja katsoa biografioiden tapahtumia zoomautuvilla kartoilla ml.
+                historialliset kartat. Paikan markkeria klikkaamalla aukeaa paikan kotisivu, josta löytyy kaikki paikkaan
+                liittyvä informaatio. Taustakartan ja sen päälle piirrettävät historialliset karttalehdet pääsee valitsemaan oikean
+                yläkulman painikkeella. Historiallisen karttalehtien läpinäkyvyyttä voi säätää vasemman alakulman painikkeella.</span>
               </li>
               <li>
-                <div>
-                  <span><b>Paikat</b>-näkymässä voit hakea ja katsoa biografioiden tapahtumia zoomautuvilla kartoilla ml.
-                  historialliset kartat. Paikan markkeria klikkaamalla aukeaa paikan kotisivu, josta löytyy kaikki paikkaan
-                  liittyvä informaatio.</span>
-                </div>
+                <span><b>Elämäkartat</b>-näkymän kautta voit tarkastella ja vertailla ryhmien elämäkertoja kartoilla.</span>
               </li>
               <li>
-                <div>
-                  <span><b>Elämäkartat</b>-näkymän kautta voit tarkastella ja vertailla ryhmien elämäkertoja kartoilla.</span>
-                </div>
+                <span><b>Tilastot</b>-näkymän avulla voi rajata henkilöryhmiä ja tutkia ja vertailla niitä proposopografisesti
+                tilastojen avulla.</span>
               </li>
               <li>
-                <div>
-                  <span><b>Tilastot</b>-näkymän avulla voi rajata henkilöryhmiä ja tutkia ja vertailla niitä proposopografisesti
-                  tilastojen avulla.</span>
-                </div>
+                <span><b>Verkostot</b>-näkymä tarjoaa työkaluja henkilöiden välisten verkostojen tutkimiseen.</span>
               </li>
               <li>
-                <div>
-                  <span><b>Verkostot</b>-näkymä tarjoaa työkaluja henkilöiden välisten verkostojen tutkimiseen.</span>
-                </div>
+                <span><b>Yhteyshaussa</b> voi etsiä henkilöiden ja paikkojen välisiä yhteyksiä.</span>
               </li>
               <li>
-                <div>
-                  <span><b>Yhteyshaussa</b> voi etsiä henkilöiden ja paikkojen välisiä yhteyksiä.</span>
-                </div>
-              </li>
-              <li>
-                <div>
-                  <span><b>Kielialanalyysi</b>-näkymän avulla voi rajata elämäkertoja ja tutkia niissä käytettyä kieltä.</span>
-                </div>
+                <span><b>Kielialanalyysi</b>-näkymän avulla voi rajata elämäkertoja ja tutkia niissä käytettyä kieltä.</span>
               </li>
             </ol>
             <p>Sovellusnäkymän voi valita portaalin aloitussivulta ja aina eri näkymien sovellussivujen yläpalkista.</p>

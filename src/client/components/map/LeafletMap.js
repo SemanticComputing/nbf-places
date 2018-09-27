@@ -82,7 +82,7 @@ class LeafletMap extends React.Component {
       'OpenStreetMap': OSMBaseLayer,
     };
     const overlayMaps = {
-      'Kansallisbiografian paikat': this.resultMarkerLayer,
+      'Biografiasammon paikat, 2188 paikkaa': this.resultMarkerLayer,
       'Karjalan kartat (1928-1951), 47 karttalehteä': karelianMaps,
       'Senaatin kartasto (1870 - 1907), 414 karttalehteä': senateAtlas,
       //'Western Front July 1917 (MapWarper)': westernFront
