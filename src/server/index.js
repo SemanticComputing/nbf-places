@@ -5,7 +5,6 @@ import _ from 'lodash';
 import sparqlSearchEngine from './sparql/SparqlSearchEngine';
 const DEFAULT_PORT = 3001;
 const app = express();
-const isDevelopment  = app.get('env') !== 'production';
 
 app.set('port', process.env.PORT || DEFAULT_PORT);
 app.use(bodyParser.json());
@@ -18,6 +17,7 @@ app.use(function(req, res, next) {
 });
 
 // Serve the React app
+const isDevelopment = process.env.NODE_ENV === 'production' ? false : true;
 let rootDir = '';
 if (isDevelopment) {
   app.use(express.static(__dirname + './../public/'));
