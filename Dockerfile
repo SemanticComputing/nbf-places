@@ -23,4 +23,6 @@ RUN npm install && npm run build
 
 EXPOSE 3001
 
-CMD ["NODE_ENV=production node", "dist/server"]
+ENV NODE_ENV=production
+
+CMD ["node", "dist/server"]
